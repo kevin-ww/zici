@@ -103,7 +103,7 @@ export default function GradePage() {
         {filtered.map(w => {
           const s = progress[w.id]?.status ?? 'new'
           return (
-            <button key={w.id} onClick={() => handleOpen(w)} style={{
+            <button key={w.id} data-demo-word={w.id} onClick={() => handleOpen(w)} style={{
               background: '#fff', border: `2px solid ${statusColor[s]}`,
               borderRadius: 12, padding: '12px 8px', cursor: 'pointer',
               textAlign: 'center', position: 'relative',
@@ -136,7 +136,7 @@ export default function GradePage() {
             <FlashCard word={active} onCorrect={() => handleMark(true)} onWrong={() => handleMark(false)} />
 
             {/* AI Explain button */}
-            <button onClick={handleExplain} disabled={explaining} style={{
+            <button data-demo="ai-explain" onClick={handleExplain} disabled={explaining} style={{
               width: '100%', marginTop: 14, padding: '11px',
               borderRadius: 12, border: '1.5px solid var(--primary)',
               background: explaining ? 'var(--border)' : '#fff',

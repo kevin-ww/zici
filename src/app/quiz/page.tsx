@@ -110,7 +110,7 @@ export default function QuizPage() {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {q.options.map(opt => {
+        {q.options.map((opt, index) => {
           // before submitting we don't know the correct answer — revealed after submit
           const isSelected = opt === selected
           let bg = '#fff', border = 'var(--border)', color = 'var(--text)'
@@ -118,7 +118,7 @@ export default function QuizPage() {
             if (isSelected) { bg = '#dbeafe'; border = 'var(--primary)'; color = 'var(--primary)' }
           }
           return (
-            <button key={opt} onClick={() => handleSelect(opt)} style={{
+            <button key={opt} data-demo={`quiz-option-${index}`} onClick={() => handleSelect(opt)} style={{
               padding: '14px 20px', borderRadius: 12, border: `2px solid ${border}`,
               background: bg, color, fontSize: 16, cursor: selected ? 'default' : 'pointer',
               textAlign: 'left', fontFamily: 'inherit',
@@ -130,7 +130,7 @@ export default function QuizPage() {
       </div>
 
       {selected && (
-        <button onClick={handleNext} disabled={submitting} style={{
+        <button data-demo="quiz-next" onClick={handleNext} disabled={submitting} style={{
           width: '100%', marginTop: 20, padding: '14px', borderRadius: 12,
           border: 'none', cursor: submitting ? 'default' : 'pointer',
           background: submitting ? 'var(--muted)' : 'var(--primary)',

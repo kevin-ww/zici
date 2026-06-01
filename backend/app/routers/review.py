@@ -28,6 +28,10 @@ def _to_read(p: UserProgress) -> ProgressRead:
     )
 
 
+def _default_read(user_id, word_id: str) -> ProgressRead:
+    return _to_read(UserProgress(user_id=user_id, word_id=word_id))
+
+
 @router.get("/due", response_model=list[DueWordResponse])
 async def get_due(
     limit: int = Query(default=30, ge=1, le=100),
@@ -56,6 +60,31 @@ async def get_due(
             semester=word.semester,
             type=word.type,
             progress=_to_read(progress),
+        ))
+
+    remaining = limit - len(due)
+    if remaining <= 0:
+        return due
+
+    progressed_word_ids = select(UserProgress.word_id).where(
+        UserProgress.user_id == current_user.id
+    )
+    new_words_result = await session.exec(
+        select(Word)
+        .where(~Word.id.in_(progressed_word_ids))
+        .order_by(Word.id)
+        .limit(remaining)
+    )
+
+    for word in new_words_result.all():
+        due.append(DueWordResponse(
+            id=word.id,
+            word=word.word,
+            pinyin=word.pinyin,
+            grade=word.grade,
+            semester=word.semester,
+            type=word.type,
+            progress=_default_read(current_user.id, word.id),
         ))
     return due
 

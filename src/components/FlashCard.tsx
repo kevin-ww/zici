@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Character } from '@/types'
 import { speak } from '@/lib/tts'
 
@@ -12,6 +12,10 @@ interface Props {
 
 export default function FlashCard({ word, onCorrect, onWrong }: Props) {
   const [flipped, setFlipped] = useState(false)
+
+  useEffect(() => {
+    setFlipped(false)
+  }, [word.id])
 
   const typeLabel: Record<string, string> = { char: '字', word: '词语', idiom: '成语' }
 
@@ -63,13 +67,13 @@ export default function FlashCard({ word, onCorrect, onWrong }: Props) {
       {/* Action buttons */}
       {flipped ? (
         <div style={{ display: 'flex', gap: 12 }}>
-          <button onClick={onWrong} style={{
+          <button data-demo="flashcard-wrong" onClick={onWrong} style={{
             flex: 1, padding: '12px', borderRadius: 12, border: 'none', cursor: 'pointer',
             background: '#fee2e2', color: '#dc2626', fontSize: 15, fontWeight: 600,
           }}>
             ✗ 没记住
           </button>
-          <button onClick={onCorrect} style={{
+          <button data-demo="flashcard-correct" onClick={onCorrect} style={{
             flex: 1, padding: '12px', borderRadius: 12, border: 'none', cursor: 'pointer',
             background: '#dcfce7', color: '#16a34a', fontSize: 15, fontWeight: 600,
           }}>
@@ -77,7 +81,7 @@ export default function FlashCard({ word, onCorrect, onWrong }: Props) {
           </button>
         </div>
       ) : (
-        <button onClick={() => setFlipped(true)} style={{
+        <button data-demo="flashcard-reveal" onClick={() => setFlipped(true)} style={{
           width: '100%', padding: '12px', borderRadius: 12, border: 'none', cursor: 'pointer',
           background: 'var(--primary)', color: '#fff', fontSize: 15, fontWeight: 600,
         }}>

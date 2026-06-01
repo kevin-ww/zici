@@ -39,7 +39,13 @@ supabase/.env.keys
 supabase/.env.local
 supabase/.env.*.local
 
+# demo-dev output
+artifacts/
+
 # OS/editor
 .DS_Store
 .idea/
 .vscode/
+
+# Private application prep materials
+prep-materials/

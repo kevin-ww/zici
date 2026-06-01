@@ -20,11 +20,19 @@ async def test_answer_requires_auth(client):
 
 
 @pytest.mark.asyncio
-async def test_due_empty_for_new_user(client):
+async def test_due_returns_new_words_for_new_user(client, session):
+    from app.models.word import Word
+
+    session.add(Word(id="7-1-001", word="示例", pinyin="shì lì", grade=7, semester=1, type="word"))
+    await session.commit()
+
     token = await _register_and_login(client)
     r = await client.get("/api/review/due", headers={"Authorization": f"Bearer {token}"})
     assert r.status_code == 200
-    assert r.json() == []
+    body = r.json()
+    assert len(body) == 1
+    assert body[0]["id"] == "7-1-001"
+    assert body[0]["progress"]["status"] == "new"
 
 
 @pytest.mark.asyncio
