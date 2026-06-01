@@ -1,0 +1,842 @@
+[
+  {
+    "id": "8-2-001",
+    "word": "绯红",
+    "pinyin": "fēi hóng",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-002",
+    "word": "不逊",
+    "pinyin": "bù xùn",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-003",
+    "word": "诘责",
+    "pinyin": "jié zé",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-004",
+    "word": "匿名",
+    "pinyin": "nì míng",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-005",
+    "word": "宽恕",
+    "pinyin": "kuān shù",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-006",
+    "word": "凄惨",
+    "pinyin": "qī cǎn",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-007",
+    "word": "奥秘",
+    "pinyin": "ào mì",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-008",
+    "word": "黝黑",
+    "pinyin": "yǒu hēi",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-009",
+    "word": "滞留",
+    "pinyin": "zhì liú",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-010",
+    "word": "禁锢",
+    "pinyin": "jìn gù",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-011",
+    "word": "轩昂",
+    "pinyin": "xuān áng",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-012",
+    "word": "锃亮",
+    "pinyin": "zèng liàng",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-013",
+    "word": "愚钝",
+    "pinyin": "yú dùn",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-014",
+    "word": "犀利",
+    "pinyin": "xī lì",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-015",
+    "word": "侏儒",
+    "pinyin": "zhū rú",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-016",
+    "word": "朔方",
+    "pinyin": "shuò fāng",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-017",
+    "word": "褪尽",
+    "pinyin": "tuì jìn",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-018",
+    "word": "眷念",
+    "pinyin": "juàn niàn",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-019",
+    "word": "睥睨",
+    "pinyin": "pì nì",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-020",
+    "word": "污秽",
+    "pinyin": "wū huì",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-021",
+    "word": "迸射",
+    "pinyin": "bèng shè",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-022",
+    "word": "虐待",
+    "pinyin": "nüè dài",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-023",
+    "word": "雷霆",
+    "pinyin": "léi tíng",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-024",
+    "word": "胆怯",
+    "pinyin": "dǎn qiè",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-025",
+    "word": "翡翠",
+    "pinyin": "fěi cuì",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-026",
+    "word": "蜿蜒",
+    "pinyin": "wān yán",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-027",
+    "word": "执拗",
+    "pinyin": "zhí niù",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-028",
+    "word": "憔悴",
+    "pinyin": "qiáo cuì",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-029",
+    "word": "馈赠",
+    "pinyin": "kuì zèng",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-030",
+    "word": "璀璨",
+    "pinyin": "cuǐ càn",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-031",
+    "word": "镶嵌",
+    "pinyin": "xiāng qiàn",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-032",
+    "word": "蓬蒿",
+    "pinyin": "péng hāo",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-033",
+    "word": "咫尺",
+    "pinyin": "zhǐ chǐ",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-034",
+    "word": "呐喊",
+    "pinyin": "nà hǎn",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-035",
+    "word": "萧瑟",
+    "pinyin": "xiāo sè",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-036",
+    "word": "和煦",
+    "pinyin": "hé xù",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-037",
+    "word": "干涸",
+    "pinyin": "gān hé",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-038",
+    "word": "裸露",
+    "pinyin": "luǒ lù",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-039",
+    "word": "媲美",
+    "pinyin": "pì měi",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-040",
+    "word": "挑衅",
+    "pinyin": "tiǎo xìn",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-041",
+    "word": "缄默",
+    "pinyin": "jiān mò",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-042",
+    "word": "凋零",
+    "pinyin": "diāo líng",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-043",
+    "word": "哂笑",
+    "pinyin": "shěn xiào",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-044",
+    "word": "牟取",
+    "pinyin": "móu qǔ",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-045",
+    "word": "蹲踞",
+    "pinyin": "dūn jù",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-046",
+    "word": "酬和",
+    "pinyin": "chóu hè",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-047",
+    "word": "熹微",
+    "pinyin": "xī wēi",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-048",
+    "word": "譬喻",
+    "pinyin": "pì yù",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-049",
+    "word": "淳朴",
+    "pinyin": "chún pǔ",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-050",
+    "word": "门楣",
+    "pinyin": "mén méi",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-051",
+    "word": "腌制",
+    "pinyin": "yān zhì",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-052",
+    "word": "籍贯",
+    "pinyin": "jí guàn",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-053",
+    "word": "招徕",
+    "pinyin": "zhāo lái",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-054",
+    "word": "荸荠",
+    "pinyin": "bí qi",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "8-2-055",
+    "word": "油光可鉴",
+    "pinyin": "yóu guāng kě jiàn",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "8-2-056",
+    "word": "抑扬顿挫",
+    "pinyin": "yì yáng dùn cuò",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "8-2-057",
+    "word": "深恶痛疾",
+    "pinyin": "shēn wù tòng jí",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "8-2-058",
+    "word": "翻来覆去",
+    "pinyin": "fān lái fù qù",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "8-2-059",
+    "word": "鹤立鸡群",
+    "pinyin": "hè lì jī qún",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "8-2-060",
+    "word": "正襟危坐",
+    "pinyin": "zhèng jīn wēi zuò",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "8-2-061",
+    "word": "颔首低眉",
+    "pinyin": "hàn shǒu dī méi",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "8-2-062",
+    "word": "诚惶诚恐",
+    "pinyin": "chéng huáng chéng kǒng",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "8-2-063",
+    "word": "粗制滥造",
+    "pinyin": "cū zhì làn zào",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "8-2-064",
+    "word": "藏污纳垢",
+    "pinyin": "cáng wū nà gòu",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "8-2-065",
+    "word": "郁郁寡欢",
+    "pinyin": "yù yù guǎ huān",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "8-2-066",
+    "word": "黯然失色",
+    "pinyin": "àn rán shī sè",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "8-2-067",
+    "word": "广袤无垠",
+    "pinyin": "guǎng mào wú yín",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "8-2-068",
+    "word": "长吁短叹",
+    "pinyin": "cháng xū duǎn tàn",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "8-2-069",
+    "word": "相形见绌",
+    "pinyin": "xiāng xíng jiàn chù",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "8-2-070",
+    "word": "沧海桑田",
+    "pinyin": "cāng hǎi sāng tián",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "b8-2-001",
+    "word": "濡湿",
+    "pinyin": "rú shī",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-002",
+    "word": "宛转",
+    "pinyin": "wǎn zhuǎn",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-003",
+    "word": "辽阔",
+    "pinyin": "liáo kuò",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-004",
+    "word": "竦峙",
+    "pinyin": "sǒng zhì",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-005",
+    "word": "澹澹",
+    "pinyin": "dàn dàn",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-006",
+    "word": "萧瑟",
+    "pinyin": "xiāo sè",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-007",
+    "word": "挺拔",
+    "pinyin": "tǐng bá",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-008",
+    "word": "轩",
+    "pinyin": "xuān",
+    "grade": 8,
+    "semester": 2,
+    "type": "char"
+  },
+  {
+    "id": "b8-2-009",
+    "word": "榭",
+    "pinyin": "xiè",
+    "grade": 8,
+    "semester": 2,
+    "type": "char"
+  },
+  {
+    "id": "b8-2-010",
+    "word": "嶙峋",
+    "pinyin": "lín xún",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-011",
+    "word": "镂空",
+    "pinyin": "lòu kōng",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-012",
+    "word": "胸中有丘壑",
+    "pinyin": "xiōng zhōng yǒu qiū hè",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "b8-2-013",
+    "word": "重峦叠嶂",
+    "pinyin": "chóng luán dié zhàng",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "b8-2-014",
+    "word": "愧疚",
+    "pinyin": "kuì jiù",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-015",
+    "word": "蹒跚",
+    "pinyin": "pán shān",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-016",
+    "word": "倔强",
+    "pinyin": "jué jiàng",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-017",
+    "word": "蹂躏",
+    "pinyin": "róu lìn",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-018",
+    "word": "阻挠",
+    "pinyin": "zǔ náo",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-019",
+    "word": "嫉妒",
+    "pinyin": "jí dù",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-020",
+    "word": "毋宁",
+    "pinyin": "wú nìng",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-021",
+    "word": "诲人不倦",
+    "pinyin": "huì rén bù juàn",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "b8-2-022",
+    "word": "海枯石烂",
+    "pinyin": "hǎi kū shí làn",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "b8-2-023",
+    "word": "不耻下问",
+    "pinyin": "bù chǐ xià wèn",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "b8-2-024",
+    "word": "一鸣惊人",
+    "pinyin": "yī míng jīng rén",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "b8-2-025",
+    "word": "缥碧",
+    "pinyin": "piǎo bì",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-026",
+    "word": "奔竞",
+    "pinyin": "bēn jìng",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-027",
+    "word": "轩邈",
+    "pinyin": "xuān miǎo",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-028",
+    "word": "泠泠",
+    "pinyin": "líng líng",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-029",
+    "word": "嘤嘤",
+    "pinyin": "yīng yīng",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-030",
+    "word": "鸢飞戾天",
+    "pinyin": "yuān fēi lì tiān",
+    "grade": 8,
+    "semester": 2,
+    "type": "idiom"
+  },
+  {
+    "id": "b8-2-031",
+    "word": "横柯上蔽",
+    "pinyin": "héng kē shàng bì",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-032",
+    "word": "经纶",
+    "pinyin": "jīng lún",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-033",
+    "word": "天堑",
+    "pinyin": "tiān qiàn",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-034",
+    "word": "湍急",
+    "pinyin": "tuān jí",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  },
+  {
+    "id": "b8-2-035",
+    "word": "御风",
+    "pinyin": "yù fēng",
+    "grade": 8,
+    "semester": 2,
+    "type": "word"
+  }
+]

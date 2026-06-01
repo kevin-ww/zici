@@ -1,0 +1,58 @@
+[
+  {
+    "grade": 7,
+    "semester": 1,
+    "label": "七年级上册",
+    "file": "grade-7-1.json",
+    "total": 170
+  },
+  {
+    "grade": 7,
+    "semester": 2,
+    "label": "七年级下册",
+    "file": "grade-7-2.json",
+    "total": 137
+  },
+  {
+    "grade": 8,
+    "semester": 1,
+    "label": "八年级上册",
+    "file": "grade-8-1.json",
+    "total": 120
+  },
+  {
+    "grade": 8,
+    "semester": 2,
+    "label": "八年级下册",
+    "file": "grade-8-2.json",
+    "total": 105
+  },
+  {
+    "grade": 9,
+    "semester": 1,
+    "label": "九年级上册",
+    "file": "grade-9-1.json",
+    "total": 109
+  },
+  {
+    "grade": 9,
+    "semester": 2,
+    "label": "九年级下册",
+    "file": "grade-9-2.json",
+    "total": 108
+  },
+  {
+    "grade": 9,
+    "semester": 1,
+    "label": "易错词语（专项）",
+    "file": "yicuo-words.json",
+    "total": 174
+  },
+  {
+    "grade": 9,
+    "semester": 1,
+    "label": "易错成语（专项）",
+    "file": "yicuo-idioms.json",
+    "total": 160
+  }
+]

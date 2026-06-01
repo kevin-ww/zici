@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #fafaf8;
+  --card: #ffffff;
+  --primary: #e85d26;
+  --primary-light: #fff0eb;
+  --text: #1a1a1a;
+  --muted: #888;
+  --border: #e8e8e8;
+  --mastered: #22c55e;
+  --learning: #f59e0b;
+  --new: #cbd5e1;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100dvh;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
