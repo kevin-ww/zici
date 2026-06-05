@@ -12,7 +12,7 @@ from alembic import context
 from app.models.user import User  # noqa: F401
 from app.models.word import Word  # noqa: F401
 from app.models.progress import UserProgress, ReviewEvent  # noqa: F401
-from app.models.quiz import QuizAttempt, QuizAnswer  # noqa: F401
+from app.models.quiz import QuizAttempt, QuizAnswer, QuizPinyinDistractorSet  # noqa: F401
 from app.core.config import settings
 
 config = context.config

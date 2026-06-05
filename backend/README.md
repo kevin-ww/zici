@@ -29,7 +29,7 @@ DOCKER_HOST="unix:///var/run/docker.sock" supabase start
 
 # 3. Configure environment
 cp .env.example .env
-# DATABASE_URL is pre-filled — set DEEPSEEK_API_KEY and JWT_SECRET_KEY
+# DATABASE_URL is pre-filled — set DEEPSEEK_API_KEY, JWT_SECRET_KEY, and QUIZ_AI_ENABLED if you want AI ranking
 
 # 4. Run Alembic migrations
 uv run alembic upgrade head
@@ -100,6 +100,7 @@ uv run alembic revision --autogenerate -m "describe the change"
 |---|---|
 | `2903595ebba4` | Create initial tables (users, words, user_progress, review_events, quiz_attempts, quiz_answers) |
 | `7e7ac2050152` | Add `display_language` preference column to users |
+| `bf4f1a2c91e7` | Add cached pinyin distractor sets for quiz generation |
 
 ## Migration Story: Flask → FastAPI
 

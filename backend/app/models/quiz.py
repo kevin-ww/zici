@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime
 from typing import Optional
 
+from sqlalchemy import JSON, Column
 from sqlmodel import Field, SQLModel
 
 
@@ -27,3 +28,16 @@ class QuizAnswer(SQLModel, table=True):
     correct_answer: str
     is_correct: bool
     created_at: datetime = Field(default_factory=datetime.utcnow)
+
+
+class QuizPinyinDistractorSet(SQLModel, table=True):
+    __tablename__ = "quiz_pinyin_distractor_sets"
+
+    word_id: str = Field(foreign_key="words.id", primary_key=True)
+    correct_pinyin: str
+    distractors_json: list[str] = Field(sa_column=Column(JSON, nullable=False))
+    difficulty_score: float = Field(default=0.0)
+    generation_version: int = Field(default=1, index=True)
+    source: str = Field(default="rules")
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)

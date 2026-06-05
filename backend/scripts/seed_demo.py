@@ -74,6 +74,24 @@ async def seed():
         )
         print(f"Demo user created: {DEMO_EMAIL} / {DEMO_PASSWORD}")
 
+    # --- demo review queue: seed a few due cards for the demo user ---
+    demo_user_id = await conn.fetchval("SELECT id FROM users WHERE email = $1", DEMO_EMAIL)
+    first_words = await conn.fetch("SELECT id FROM words ORDER BY id LIMIT 5")
+    from datetime import datetime, timezone
+    now = datetime.now(timezone.utc)
+    for row in first_words:
+        await conn.execute(
+            """
+            INSERT INTO user_progress
+              (user_id, word_id, status, repetitions, ease_factor, interval, next_review, wrong_count)
+            VALUES ($1, $2, 'learning', 1, 2.5, 1, $3, 0)
+            ON CONFLICT (user_id, word_id) DO UPDATE
+              SET next_review = $3, status = 'learning'
+            """,
+            demo_user_id, row["id"], now,
+        )
+    print(f"Demo review queue: {len(first_words)} cards seeded as due.")
+
     await conn.close()
     print("Done.")
 

@@ -37,16 +37,10 @@ output:
   fps: 30
   preset: balanced
 
-audio:
-  file: ../artifacts/narration-synced.mp3
-  volume: 1.0
-  fadeIn: 0.5
-  fadeOut: 1.5
-
 steps:
-  - name: "Login"
+  - name: "Login — fill form"
     captureDelay: 150
-    holdDuration: 2500
+    holdDuration: 2000
     transition: fade
     actions:
       - action: navigate
@@ -68,10 +62,17 @@ steps:
         selector: "input[type='password']"
         text: "demo1234"
         delay: 80
+
+  - name: "Login — submit"
+    captureDelay: 150
+    holdDuration: 2000
+    transition: fade
+    actions:
       - action: click
         selector: "form button[type='submit']"
-      - action: waitForURL
-        url: "http://localhost:3000/"
+      - action: waitForSelector
+        selector: "h1:has-text('字词通')"
+        state: visible
         timeout: 10000
 
   - name: "Home — Grade Index"
@@ -107,10 +108,8 @@ steps:
     actions:
       - action: click
         selector: "button:has-text('✨ AI 解释')"
-      - action: smartWait
-        until: networkIdle
-        timeout: 12000
-        displaySpeed: 3
+      - action: wait
+        duration: 5000
 
   - name: "Spaced Repetition Review"
     captureDelay: 120
@@ -121,25 +120,21 @@ steps:
         url: "http://localhost:3000/review"
         waitUntil: load
       - action: click
-        selector: "text=点击翻转"
+        selector: "button:has-text('点击翻转')"
+      - action: wait
+        duration: 800
+      - action: click
+        selector: "button:has-text('✓ 记住了')"
       - action: waitForSelector
-        selector: "text=✓ 记住了"
+        selector: "button:has-text('点击翻转')"
         state: visible
         timeout: 5000
       - action: click
-        selector: "text=✓ 记住了"
-      - action: waitForSelector
-        selector: "text=点击翻转"
-        state: visible
-        timeout: 5000
+        selector: "button:has-text('点击翻转')"
+      - action: wait
+        duration: 800
       - action: click
-        selector: "text=点击翻转"
-      - action: waitForSelector
-        selector: "text=✗ 没记住"
-        state: visible
-        timeout: 5000
-      - action: click
-        selector: "text=✗ 没记住"
+        selector: "button:has-text('✗ 没记住')"
 
   - name: "Pinyin Quiz"
     captureDelay: 120
@@ -155,18 +150,28 @@ steps:
         timeout: 5000
       - action: click
         selector: "main button:nth-of-type(2)"
+      - action: wait
+        duration: 500
+      - action: waitForSelector
+        selector: "button:has-text('下一题 →')"
+        state: visible
+        timeout: 5000
+      - action: click
+        selector: "button:has-text('下一题 →')"
       - action: waitForSelector
         selector: "main button"
         state: visible
         timeout: 5000
       - action: click
         selector: "main button:nth-of-type(1)"
+      - action: wait
+        duration: 500
       - action: waitForSelector
-        selector: "main button"
+        selector: "button:has-text('下一题 →')"
         state: visible
         timeout: 5000
       - action: click
-        selector: "main button:nth-of-type(3)"
+        selector: "button:has-text('下一题 →')"
 
   - name: "Learning Statistics"
     captureDelay: 150

@@ -17,7 +17,7 @@ from app.db.session import get_session
 from app.models.word import Word  # noqa: F401
 from app.models.user import User  # noqa: F401
 from app.models.progress import UserProgress, ReviewEvent  # noqa: F401
-from app.models.quiz import QuizAttempt, QuizAnswer  # noqa: F401
+from app.models.quiz import QuizAttempt, QuizAnswer, QuizPinyinDistractorSet  # noqa: F401
 
 TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"
 
@@ -38,6 +38,7 @@ async def session(engine):
         yield s
         await s.exec(text("DELETE FROM quiz_answers"))
         await s.exec(text("DELETE FROM quiz_attempts"))
+        await s.exec(text("DELETE FROM quiz_pinyin_distractor_sets"))
         await s.exec(text("DELETE FROM review_events"))
         await s.exec(text("DELETE FROM user_progress"))
         await s.exec(text("DELETE FROM users"))

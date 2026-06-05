@@ -85,13 +85,20 @@ Health check: http://localhost:8000/health
 Demo user:    demo@zici.app / demo1234
 ```
 
-Other helper commands:
+Service-level control is also available:
 
 ```bash
+./dev.sh frontend start|stop|restart|status
+./dev.sh backend start|stop|restart|status
+./dev.sh db start|stop|restart|status
 ./dev.sh status
-./dev.sh stop
-./dev.sh restart
 ```
+
+Log files:
+
+- Frontend: `/tmp/zici-frontend.log`
+- Backend: `/tmp/zici-backend.log`
+- Database: `/tmp/zici-supabase.log`
 
 ### 1. Backend
 

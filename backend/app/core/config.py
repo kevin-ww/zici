@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 60
     backend_cors_origins: list[str] = ["http://localhost:3000"]
     deepseek_api_key: str = ""
+    quiz_ai_enabled: bool = False
 
 
 settings = Settings()
