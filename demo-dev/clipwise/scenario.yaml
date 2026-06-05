@@ -1,0 +1,189 @@
+name: "Zici Demo"
+description: "Junior high Chinese vocabulary learning — grade browse, AI explain, review, quiz, stats"
+viewport:
+  width: 1440
+  height: 900
+
+effects:
+  deviceFrame:
+    enabled: true
+    type: browser
+    darkMode: false
+  background:
+    type: gradient
+    value: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+    padding: 48
+    borderRadius: 14
+    shadow: true
+  zoom:
+    enabled: true
+    intensity: light
+    easing: spring
+    autoZoom:
+      followCursor: true
+  cursor:
+    enabled: true
+    size: 20
+    speed: "normal"
+    clickEffect: true
+    trail: true
+  speedRamp:
+    enabled: true
+    idleSpeed: 2.0
+    actionSpeed: 0.8
+
+output:
+  format: mp4
+  fps: 30
+  preset: balanced
+
+steps:
+  - name: "Login — fill form"
+    captureDelay: 150
+    holdDuration: 2000
+    transition: fade
+    actions:
+      - action: navigate
+        url: "http://localhost:3000/login"
+        waitUntil: load
+      - action: waitForSelector
+        selector: "input[type='email']"
+        state: visible
+        timeout: 5000
+      - action: click
+        selector: "input[type='email']"
+      - action: type
+        selector: "input[type='email']"
+        text: "demo@zici.app"
+        delay: 80
+      - action: click
+        selector: "input[type='password']"
+      - action: type
+        selector: "input[type='password']"
+        text: "demo1234"
+        delay: 80
+
+  - name: "Login — submit"
+    captureDelay: 150
+    holdDuration: 2000
+    transition: fade
+    actions:
+      - action: click
+        selector: "form button[type='submit']"
+      - action: waitForSelector
+        selector: "h1:has-text('字词通')"
+        state: visible
+        timeout: 10000
+
+  - name: "Home — Grade Index"
+    captureDelay: 150
+    holdDuration: 2500
+    transition: fade
+    actions:
+      - action: navigate
+        url: "http://localhost:3000/"
+        waitUntil: load
+      - action: scroll
+        x: 0
+        y: 350
+      - action: scroll
+        x: 0
+        y: -350
+
+  - name: "Grade 7 Word List"
+    captureDelay: 120
+    holdDuration: 1500
+    transition: fade
+    actions:
+      - action: navigate
+        url: "http://localhost:3000/grade/7-1"
+        waitUntil: load
+      - action: click
+        selector: "button:has-text('分歧')"
+
+  - name: "AI Explanation"
+    captureDelay: 120
+    holdDuration: 3000
+    transition: none
+    actions:
+      - action: click
+        selector: "button:has-text('✨ AI 解释')"
+      - action: wait
+        duration: 5000
+
+  - name: "Spaced Repetition Review"
+    captureDelay: 120
+    holdDuration: 1200
+    transition: fade
+    actions:
+      - action: navigate
+        url: "http://localhost:3000/review"
+        waitUntil: load
+      - action: click
+        selector: "button:has-text('点击翻转')"
+      - action: wait
+        duration: 800
+      - action: click
+        selector: "button:has-text('✓ 记住了')"
+      - action: waitForSelector
+        selector: "button:has-text('点击翻转')"
+        state: visible
+        timeout: 5000
+      - action: click
+        selector: "button:has-text('点击翻转')"
+      - action: wait
+        duration: 800
+      - action: click
+        selector: "button:has-text('✗ 没记住')"
+
+  - name: "Pinyin Quiz"
+    captureDelay: 120
+    holdDuration: 1200
+    transition: fade
+    actions:
+      - action: navigate
+        url: "http://localhost:3000/quiz"
+        waitUntil: load
+      - action: waitForSelector
+        selector: "main button"
+        state: visible
+        timeout: 5000
+      - action: click
+        selector: "main button:nth-of-type(2)"
+      - action: wait
+        duration: 500
+      - action: waitForSelector
+        selector: "button:has-text('下一题 →')"
+        state: visible
+        timeout: 5000
+      - action: click
+        selector: "button:has-text('下一题 →')"
+      - action: waitForSelector
+        selector: "main button"
+        state: visible
+        timeout: 5000
+      - action: click
+        selector: "main button:nth-of-type(1)"
+      - action: wait
+        duration: 500
+      - action: waitForSelector
+        selector: "button:has-text('下一题 →')"
+        state: visible
+        timeout: 5000
+      - action: click
+        selector: "button:has-text('下一题 →')"
+
+  - name: "Learning Statistics"
+    captureDelay: 150
+    holdDuration: 3000
+    transition: fade
+    actions:
+      - action: navigate
+        url: "http://localhost:3000/stats"
+        waitUntil: load
+      - action: scroll
+        x: 0
+        y: 400
+      - action: scroll
+        x: 0
+        y: 400

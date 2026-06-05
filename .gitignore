@@ -49,3 +49,8 @@ artifacts/
 
 # Private application prep materials
 prep-materials/
+
+# Demo-dev generated outputs and local browser state
+demo-dev/artifacts/
+demo-dev/backend-artifacts/
+demo-dev/playwright-mcp/

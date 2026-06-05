@@ -1,6 +1,10 @@
 #!/bin/bash
-# dev.sh — Start and stop the full Zici dev stack
-# Usage: ./dev.sh start | stop | restart | status
+# dev.sh — Manage the Zici dev stack
+# Usage:
+#   ./dev.sh start|stop|restart|status
+#   ./dev.sh frontend start|stop|restart|status
+#   ./dev.sh backend  start|stop|restart|status
+#   ./dev.sh db       start|stop|restart|status
 
 set -e
 
@@ -10,6 +14,7 @@ BACKEND_LOG="/tmp/zici-backend.log"
 FRONTEND_LOG="/tmp/zici-frontend.log"
 BACKEND_PID_FILE="/tmp/zici-backend.pid"
 FRONTEND_PID_FILE="/tmp/zici-frontend.pid"
+SUPABASE_LOG="/tmp/zici-supabase.log"
 
 # Required for Colima Docker socket
 export DOCKER_HOST="unix:///var/run/docker.sock"
@@ -32,8 +37,22 @@ start_supabase() {
   if supabase status 2>/dev/null | grep -q "54322"; then
     ok "Supabase already running (port 54322)"
   else
-    supabase start --workdir "$BACKEND_DIR" 2>&1 | tail -3
-    ok "Supabase started"
+    supabase start --workdir "$BACKEND_DIR" > "$SUPABASE_LOG" 2>&1 &
+    SUPABASE_PID=$!
+    for i in $(seq 1 20); do
+      if psql postgresql://postgres:postgres@127.0.0.1:54322/postgres -c "SELECT 1" > /dev/null 2>&1; then
+        ok "Supabase started"
+        return
+      fi
+      if ! kill -0 "$SUPABASE_PID" 2>/dev/null; then
+        err "Supabase failed to start — check $SUPABASE_LOG"
+        tail -10 "$SUPABASE_LOG"
+        return 1
+      fi
+      sleep 1
+    done
+    err "Supabase did not become ready — check $SUPABASE_LOG"
+    tail -10 "$SUPABASE_LOG"
   fi
 }
 
@@ -125,22 +144,28 @@ status() {
   if psql postgresql://postgres:postgres@127.0.0.1:54322/postgres \
        -c "SELECT 1" > /dev/null 2>&1; then
     ok "Supabase     postgresql://postgres:postgres@127.0.0.1:54322/postgres"
+    info "Logs         $SUPABASE_LOG"
   else
     err "Supabase     not running"
+    info "Logs         $SUPABASE_LOG"
   fi
 
   # Backend
   if curl -sf http://localhost:8000/health > /dev/null; then
     ok "Backend      http://localhost:8000  (docs: http://localhost:8000/docs)"
+    info "Logs         $BACKEND_LOG"
   else
     err "Backend      not running"
+    info "Logs         $BACKEND_LOG"
   fi
 
   # Frontend
   if curl -sf http://localhost:3000 > /dev/null; then
     ok "Frontend     http://localhost:3000"
+    info "Logs         $FRONTEND_LOG"
   else
     err "Frontend     not running"
+    info "Logs         $FRONTEND_LOG"
   fi
 
   echo "────────────────────────────────────────────────────"
@@ -148,6 +173,37 @@ status() {
   echo "  Logs:  tail -f $BACKEND_LOG"
   echo "         tail -f $FRONTEND_LOG"
   echo ""
+}
+
+status_supabase_only() {
+  if psql postgresql://postgres:postgres@127.0.0.1:54322/postgres \
+       -c "SELECT 1" > /dev/null 2>&1; then
+    ok "Supabase     postgresql://postgres:postgres@127.0.0.1:54322/postgres"
+    info "Logs         $SUPABASE_LOG"
+  else
+    err "Supabase     not running"
+    info "Logs         $SUPABASE_LOG"
+  fi
+}
+
+status_backend_only() {
+  if curl -sf http://localhost:8000/health > /dev/null; then
+    ok "Backend      http://localhost:8000  (docs: http://localhost:8000/docs)"
+    info "Logs         $BACKEND_LOG"
+  else
+    err "Backend      not running"
+    info "Logs         $BACKEND_LOG"
+  fi
+}
+
+status_frontend_only() {
+  if curl -sf http://localhost:3000 > /dev/null; then
+    ok "Frontend     http://localhost:3000"
+    info "Logs         $FRONTEND_LOG"
+  else
+    err "Frontend     not running"
+    info "Logs         $FRONTEND_LOG"
+  fi
 }
 
 # ── Commands ──────────────────────────────────────────────────────────────────
@@ -172,18 +228,70 @@ stop_all() {
   ok "All services stopped"
 }
 
+service_cmd() {
+  local service="$1"
+  local action="$2"
+
+  case "$service" in
+    frontend)
+      case "$action" in
+        start) start_frontend ;;
+        stop) stop_frontend ;;
+        restart) stop_frontend; sleep 1; start_frontend ;;
+        status) status_frontend_only ;;
+        *) return 1 ;;
+      esac
+      ;;
+    backend)
+      case "$action" in
+        start) start_backend ;;
+        stop) stop_backend ;;
+        restart) stop_backend; sleep 1; start_backend ;;
+        status) status_backend_only ;;
+        *) return 1 ;;
+      esac
+      ;;
+    db|database|supabase)
+      case "$action" in
+        start) start_supabase ;;
+        stop) stop_supabase ;;
+        restart) stop_supabase; sleep 1; start_supabase ;;
+        status) status_supabase_only ;;
+        *) return 1 ;;
+      esac
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
 case "${1:-}" in
   start)   start_all ;;
   stop)    stop_all ;;
   restart) stop_all; sleep 1; start_all ;;
   status)  status ;;
+  frontend|backend|db|database|supabase)
+    if [ -z "${2:-}" ]; then
+      echo "Usage: ./dev.sh $1 start|stop|restart|status"
+      exit 1
+    fi
+    service_cmd "$1" "$2"
+    ;;
   *)
-    echo "Usage: ./dev.sh start | stop | restart | status"
+    echo "Usage: ./dev.sh start|stop|restart|status"
+    echo "       ./dev.sh frontend start|stop|restart|status"
+    echo "       ./dev.sh backend  start|stop|restart|status"
+    echo "       ./dev.sh db       start|stop|restart|status"
     echo ""
     echo "  start    — Start Supabase, FastAPI backend, and Next.js frontend"
     echo "  stop     — Stop all three"
     echo "  restart  — Stop then start"
     echo "  status   — Check what's running"
+    echo ""
+    echo "  frontend — Manage only Next.js"
+    echo "  backend  — Manage only FastAPI"
+    echo "  db       — Manage only local Supabase"
     exit 1
     ;;
 esac

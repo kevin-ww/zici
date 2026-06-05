@@ -14,6 +14,7 @@ from app.schemas.quiz import (
     QuizResponse,
     QuizResult,
 )
+from app.services.quiz_distractors import get_or_create_distractor_set
 
 
 async def create_quiz(
@@ -36,13 +37,11 @@ async def create_quiz(
         raise ValueError("Not enough words to generate a quiz (need at least 4)")
 
     selected = random.sample(all_words, min(limit, len(all_words)))
-    all_pinyins = [w.pinyin for w in all_words]
 
     questions = []
     for word in selected:
-        distractors = random.sample(
-            [p for p in all_pinyins if p != word.pinyin], 3
-        )
+        distractor_set = await get_or_create_distractor_set(session, word, all_words)
+        distractors = list(distractor_set.distractors_json)
         options = distractors + [word.pinyin]
         random.shuffle(options)
         questions.append(QuizQuestion(
