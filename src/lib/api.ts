@@ -202,6 +202,9 @@ export interface ExplainWordResponse {
   explanation_zh: string
   explanation: string
   examples: ExampleSentence[]
+  source_type?: '说文解字' | '其他古籍' | '通用解释' | null
+  source_text?: string | null
+  source_confidence?: 'high' | 'medium' | 'low' | null
 }
 
 export async function apiExplainWord(

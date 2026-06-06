@@ -5,6 +5,9 @@ import json
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+from sqlmodel import select
+
+from app.models.chat import WordExplanationCache
 
 
 def _mock_deepseek_response(word="矛盾", pinyin="máo dùn"):
@@ -13,6 +16,9 @@ def _mock_deepseek_response(word="矛盾", pinyin="máo dùn"):
         "pinyin": pinyin,
         "explanation_zh": "矛盾指两种事物或观点相互对立、不能并存的状态。",
         "explanation": "A contradiction or conflict between ideas.",
+        "source_type": "说文解字",
+        "source_text": "可按字形和字义联系进行推断，但这里仍需保留为 AI 生成的解释来源说明。",
+        "source_confidence": "medium",
         "examples": [
             {
                 "sentence": "自相矛盾，不可并立。",
@@ -58,6 +64,9 @@ async def test_explain_word_success(client):
     assert "explanation" in body
     assert "examples" in body
     assert len(body["examples"]) == 3
+    assert body["source_type"] == "说文解字"
+    assert body["source_text"]
+    assert body["source_confidence"] == "medium"
 
     # First example must be classical
     assert body["examples"][0]["is_classical"] is True
@@ -113,3 +122,84 @@ async def test_explain_word_level_and_language(client):
             })
 
     assert r.status_code == 200
+
+
+@pytest.mark.asyncio
+async def test_explain_word_cache_reused_without_ai(client, session):
+    mock_response = _mock_deepseek_response()
+    with patch("app.services.chat.AsyncOpenAI") as mock_client_cls:
+        mock_instance = AsyncMock()
+        mock_instance.chat.completions.create = AsyncMock(return_value=mock_response)
+        mock_client_cls.return_value = mock_instance
+
+        with patch("app.services.chat.settings") as mock_settings:
+            mock_settings.deepseek_api_key = "test-key"
+            first = await client.post("/api/chat/explain-word", json={"word": "矛盾"})
+            assert first.status_code == 200
+
+            mock_settings.deepseek_api_key = ""
+            second = await client.post("/api/chat/explain-word", json={"word": "矛盾"})
+
+    assert second.status_code == 200
+    assert mock_client_cls.call_count == 1
+    assert mock_instance.chat.completions.create.call_count == 1
+
+    result = await session.exec(
+        select(WordExplanationCache).where(
+            WordExplanationCache.word == "矛盾",
+            WordExplanationCache.level == "intermediate",
+            WordExplanationCache.language == "en",
+        )
+    )
+    cached = result.first()
+    assert cached is not None
+    assert cached.response_json["word"] == "矛盾"
+    assert cached.response_json["pinyin"] == "máo dùn"
+    assert cached.response_json["source_type"] == "说文解字"
+    assert cached.response_json["examples"][0]["is_classical"] is True
+
+
+@pytest.mark.asyncio
+async def test_explain_word_refreshes_stale_cache_without_source_metadata(client, session):
+    stale = WordExplanationCache(
+        word="矛盾",
+        level="intermediate",
+        language="en",
+        response_json={
+            "word": "矛盾",
+            "pinyin": "máo dùn",
+            "explanation_zh": "旧缓存，没有来源元数据。",
+            "explanation": "Stale cache.",
+            "examples": [],
+        },
+        model_name="deepseek-chat",
+        source="ai",
+    )
+    session.add(stale)
+    await session.commit()
+
+    mock_response = _mock_deepseek_response()
+    with patch("app.services.chat.AsyncOpenAI") as mock_client_cls:
+        mock_instance = AsyncMock()
+        mock_instance.chat.completions.create = AsyncMock(return_value=mock_response)
+        mock_client_cls.return_value = mock_instance
+
+        with patch("app.services.chat.settings") as mock_settings:
+            mock_settings.deepseek_api_key = "test-key"
+            r = await client.post("/api/chat/explain-word", json={"word": "矛盾"})
+
+    assert r.status_code == 200
+    assert mock_client_cls.call_count == 1
+    assert mock_instance.chat.completions.create.call_count == 1
+
+    result = await session.exec(
+        select(WordExplanationCache).where(
+            WordExplanationCache.word == "矛盾",
+            WordExplanationCache.level == "intermediate",
+            WordExplanationCache.language == "en",
+        )
+    )
+    cached = result.first()
+    assert cached is not None
+    assert cached.response_json["source_type"] == "说文解字"
+    assert cached.response_json["source_text"]

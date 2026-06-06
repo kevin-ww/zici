@@ -14,6 +14,7 @@ os.environ.setdefault("JWT_SECRET_KEY", "test-secret-key")
 from app.main import app
 from app.db.session import get_session
 # import all models so SQLModel.metadata is populated
+from app.models.chat import WordExplanationCache  # noqa: F401
 from app.models.word import Word  # noqa: F401
 from app.models.user import User  # noqa: F401
 from app.models.progress import UserProgress, ReviewEvent  # noqa: F401
@@ -39,6 +40,7 @@ async def session(engine):
         await s.exec(text("DELETE FROM quiz_answers"))
         await s.exec(text("DELETE FROM quiz_attempts"))
         await s.exec(text("DELETE FROM quiz_pinyin_distractor_sets"))
+        await s.exec(text("DELETE FROM word_explanation_cache"))
         await s.exec(text("DELETE FROM review_events"))
         await s.exec(text("DELETE FROM user_progress"))
         await s.exec(text("DELETE FROM users"))

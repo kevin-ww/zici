@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { Character } from '@/types'
-import { apiGetDue, apiMarkWord } from '@/lib/api'
+import { apiExplainWord, apiGetDue, apiMarkWord, type ExplainWordResponse } from '@/lib/api'
 import FlashCard from '@/components/FlashCard'
 
 export default function ReviewPage() {
@@ -10,6 +10,10 @@ export default function ReviewPage() {
   const [current, setCurrent] = useState(0)
   const [done, setDone] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [reviewMode, setReviewMode] = useState<'pinyin' | 'meaning'>('pinyin')
+  const [meaning, setMeaning] = useState<ExplainWordResponse | null>(null)
+  const [meaningLoading, setMeaningLoading] = useState(false)
+  const [meaningError, setMeaningError] = useState('')
 
   useEffect(() => {
     apiGetDue(30)
@@ -17,6 +21,30 @@ export default function ReviewPage() {
       .catch(console.error)
       .finally(() => setLoading(false))
   }, [])
+
+  const word = useMemo(() => queue[current] ?? null, [queue, current])
+
+  useEffect(() => {
+    setMeaning(null)
+    setMeaningError('')
+    setMeaningLoading(false)
+  }, [reviewMode, word])
+
+  async function handleRevealMeaning() {
+    if (!word || reviewMode !== 'meaning') return false
+    setMeaningError('')
+    setMeaningLoading(true)
+    try {
+      const result = await apiExplainWord(word.word, 'intermediate', 'en')
+      setMeaning(result)
+      return true
+    } catch (e) {
+      setMeaningError(e instanceof Error ? e.message : 'AI unavailable')
+      return false
+    } finally {
+      setMeaningLoading(false)
+    }
+  }
 
   async function handleAnswer(correct: boolean) {
     const word = queue[current]
@@ -52,13 +80,45 @@ export default function ReviewPage() {
     </div>
   )
 
-  const word = queue[current]
+  const promptLabel = reviewMode === 'meaning' ? '释义' : '拼音'
+  const promptText = word.word
+  const answerLabel = reviewMode === 'meaning' ? '释义' : '拼音'
+  const answerText = reviewMode === 'meaning' ? (meaning?.explanation_zh ?? '') : word.pinyin
+  const meaningSource = meaning?.source_text
+    ? `${meaning.source_type ? `${meaning.source_type}：` : ''}${meaning.source_text}`
+    : meaning?.source_type ?? ''
+  const answerSubText = reviewMode === 'meaning'
+    ? [meaning?.explanation, meaningSource].filter(Boolean).join('\n')
+    : undefined
 
   return (
     <div style={{ padding: '20px 16px 0' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
         <h1 style={{ fontSize: 20, fontWeight: 700 }}>今日复习</h1>
         <span style={{ color: 'var(--muted)', fontSize: 14 }}>{current + 1} / {queue.length}</span>
+      </div>
+
+      <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+        {([
+          { key: 'pinyin', label: '拼音' },
+          { key: 'meaning', label: '释义' },
+        ] as const).map(item => (
+          <button
+            key={item.key}
+            onClick={() => setReviewMode(item.key)}
+            style={{
+              padding: '5px 12px',
+              borderRadius: 20,
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: 12,
+              background: reviewMode === item.key ? 'var(--primary)' : 'var(--border)',
+              color: reviewMode === item.key ? '#fff' : 'var(--muted)',
+            }}
+          >
+            {item.label}
+          </button>
+        ))}
       </div>
 
       <div style={{ height: 6, background: 'var(--border)', borderRadius: 3, marginBottom: 24, overflow: 'hidden' }}>
@@ -68,7 +128,27 @@ export default function ReviewPage() {
         }} />
       </div>
 
-      <FlashCard word={word} onCorrect={() => handleAnswer(true)} onWrong={() => handleAnswer(false)} />
+      <FlashCard
+        key={`${word.id}-${reviewMode}`}
+        word={word}
+        mode="review"
+        promptLabel={promptLabel}
+        promptText={promptText}
+        answerLabel={answerLabel}
+        answerText={answerText}
+        answerSubText={answerSubText}
+        revealLabel={reviewMode === 'meaning' ? '查看释义' : '查看拼音'}
+        revealLoading={reviewMode === 'meaning' ? meaningLoading : false}
+        onReveal={reviewMode === 'meaning' ? handleRevealMeaning : undefined}
+        onCorrect={() => handleAnswer(true)}
+        onWrong={() => handleAnswer(false)}
+      />
+
+      {meaningError && reviewMode === 'meaning' && (
+        <div style={{ marginTop: 12, padding: '10px 14px', background: '#fee2e2', borderRadius: 10, fontSize: 13, color: '#dc2626' }}>
+          {meaningError}
+        </div>
+      )}
     </div>
   )
 }
