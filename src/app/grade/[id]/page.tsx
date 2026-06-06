@@ -123,15 +123,35 @@ export default function GradePage() {
       {active && (
         <div style={{
           position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)',
-          display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
-          zIndex: 200, padding: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 200, padding: 16,
         }} onClick={() => { setActive(null); setExplanation(null) }}>
           <div onClick={e => e.stopPropagation()} style={{
             width: '100%', maxWidth: 480,
-            background: '#fff', borderRadius: '20px 20px 0 0',
-            padding: '20px 20px 40px',
+            background: '#fff', borderRadius: 20,
+            padding: 20,
             maxHeight: '90vh', overflowY: 'auto',
+            boxShadow: '0 24px 60px rgba(0,0,0,0.24)',
           }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}>
+              <button
+                onClick={() => { setActive(null); setExplanation(null) }}
+                aria-label="关闭"
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: '50%',
+                  border: 'none',
+                  background: 'var(--bg)',
+                  color: 'var(--muted)',
+                  fontSize: 20,
+                  lineHeight: 1,
+                  cursor: 'pointer',
+                }}
+              >
+                ×
+              </button>
+            </div>
             {/* FlashCard */}
             <FlashCard word={active} onCorrect={() => handleMark(true)} onWrong={() => handleMark(false)} />
 

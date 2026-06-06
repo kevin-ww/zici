@@ -5,6 +5,9 @@ import json
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+from sqlmodel import select
+
+from app.models.chat import WordExplanationCache
 
 
 def _mock_deepseek_response(word="矛盾", pinyin="máo dùn"):
@@ -113,3 +116,37 @@ async def test_explain_word_level_and_language(client):
             })
 
     assert r.status_code == 200
+
+
+@pytest.mark.asyncio
+async def test_explain_word_cache_reused_without_ai(client, session):
+    mock_response = _mock_deepseek_response()
+    with patch("app.services.chat.AsyncOpenAI") as mock_client_cls:
+        mock_instance = AsyncMock()
+        mock_instance.chat.completions.create = AsyncMock(return_value=mock_response)
+        mock_client_cls.return_value = mock_instance
+
+        with patch("app.services.chat.settings") as mock_settings:
+            mock_settings.deepseek_api_key = "test-key"
+            first = await client.post("/api/chat/explain-word", json={"word": "矛盾"})
+            assert first.status_code == 200
+
+            mock_settings.deepseek_api_key = ""
+            second = await client.post("/api/chat/explain-word", json={"word": "矛盾"})
+
+    assert second.status_code == 200
+    assert mock_client_cls.call_count == 1
+    assert mock_instance.chat.completions.create.call_count == 1
+
+    result = await session.exec(
+        select(WordExplanationCache).where(
+            WordExplanationCache.word == "矛盾",
+            WordExplanationCache.level == "intermediate",
+            WordExplanationCache.language == "en",
+        )
+    )
+    cached = result.first()
+    assert cached is not None
+    assert cached.response_json["word"] == "矛盾"
+    assert cached.response_json["pinyin"] == "máo dùn"
+    assert cached.response_json["examples"][0]["is_classical"] is True

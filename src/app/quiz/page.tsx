@@ -37,12 +37,15 @@ export default function QuizPage() {
   useEffect(() => { buildQuiz() }, [])
 
   function handleSelect(opt: string) {
-    if (selected || !quiz) return
+    if (!quiz) return
     setSelected(opt)
     const q = quiz.questions[current]
     setQuiz(prev => prev ? {
       ...prev,
-      answers: [...prev.answers, { word_id: q.word_id, selected_answer: opt }]
+      answers: [
+        ...prev.answers.filter(item => item.word_id !== q.word_id),
+        { word_id: q.word_id, selected_answer: opt },
+      ]
     } : prev)
   }
 
@@ -111,16 +114,17 @@ export default function QuizPage() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {q.options.map(opt => {
-          // before submitting we don't know the correct answer — revealed after submit
           const isSelected = opt === selected
           let bg = '#fff', border = 'var(--border)', color = 'var(--text)'
-          if (selected) {
-            if (isSelected) { bg = '#dbeafe'; border = 'var(--primary)'; color = 'var(--primary)' }
+          if (isSelected) {
+            bg = '#dbeafe'
+            border = 'var(--primary)'
+            color = 'var(--primary)'
           }
           return (
             <button key={opt} onClick={() => handleSelect(opt)} style={{
               padding: '14px 20px', borderRadius: 12, border: `2px solid ${border}`,
-              background: bg, color, fontSize: 16, cursor: selected ? 'default' : 'pointer',
+              background: bg, color, fontSize: 16, cursor: 'pointer',
               textAlign: 'left', fontFamily: 'inherit',
             }}>
               {opt}

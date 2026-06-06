@@ -3,10 +3,14 @@ AI word explanation service using DeepSeek via the OpenAI-compatible API.
 Fails gracefully if DEEPSEEK_API_KEY is absent or the provider is unavailable.
 """
 import json
-
+from datetime import datetime
 from openai import AsyncOpenAI
+from sqlalchemy.exc import SQLAlchemyError
+from sqlmodel import select
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.config import settings
+from app.models.chat import WordExplanationCache
 from app.schemas.chat import ExampleSentence, ExplainWordRequest, ExplainWordResponse
 
 DEEPSEEK_BASE_URL = "https://api.deepseek.com"
@@ -38,7 +42,66 @@ _LEVEL_NOTES = {
 }
 
 
-async def explain_word(request: ExplainWordRequest) -> ExplainWordResponse:
+def _normalize_key(value: str) -> str:
+    return value.strip()
+
+
+async def _get_cached_explanation(
+    session: AsyncSession,
+    request: ExplainWordRequest,
+) -> ExplainWordResponse | None:
+    stmt = select(WordExplanationCache).where(
+        WordExplanationCache.word == _normalize_key(request.word),
+        WordExplanationCache.level == request.level,
+        WordExplanationCache.language == request.language,
+    )
+    result = await session.exec(stmt)
+    cached = result.first()
+    if not cached:
+        return None
+
+    try:
+        return ExplainWordResponse.model_validate(cached.response_json)
+    except Exception:
+        return None
+
+
+async def _save_cached_explanation(
+    session: AsyncSession,
+    request: ExplainWordRequest,
+    response: ExplainWordResponse,
+) -> None:
+    payload = response.model_dump(mode="json")
+    normalized_word = _normalize_key(request.word)
+
+    stmt = select(WordExplanationCache).where(
+        WordExplanationCache.word == normalized_word,
+        WordExplanationCache.level == request.level,
+        WordExplanationCache.language == request.language,
+    )
+    existing = (await session.exec(stmt)).first()
+    if existing:
+        existing.response_json = payload
+        existing.model_name = MODEL
+        existing.source = "ai"
+        existing.updated_at = datetime.utcnow()
+        session.add(existing)
+    else:
+        session.add(
+            WordExplanationCache(
+                word=normalized_word,
+                level=request.level,
+                language=request.language,
+                response_json=payload,
+                model_name=MODEL,
+                source="ai",
+            )
+        )
+
+    await session.commit()
+
+
+async def _generate_ai_explanation(request: ExplainWordRequest) -> ExplainWordResponse:
     if not settings.deepseek_api_key:
         raise ValueError("DEEPSEEK_API_KEY is not configured")
 
@@ -84,3 +147,21 @@ async def explain_word(request: ExplainWordRequest) -> ExplainWordResponse:
         explanation=data["explanation"],
         examples=examples,
     )
+
+
+async def explain_word(session: AsyncSession, request: ExplainWordRequest) -> ExplainWordResponse:
+    try:
+        cached = await _get_cached_explanation(session, request)
+    except SQLAlchemyError:
+        await session.rollback()
+        cached = None
+
+    if cached:
+        return cached
+
+    response = await _generate_ai_explanation(request)
+    try:
+        await _save_cached_explanation(session, request, response)
+    except SQLAlchemyError:
+        await session.rollback()
+    return response

@@ -10,6 +10,7 @@ from alembic import context
 
 # Import all models so SQLModel.metadata is populated
 from app.models.user import User  # noqa: F401
+from app.models.chat import WordExplanationCache  # noqa: F401
 from app.models.word import Word  # noqa: F401
 from app.models.progress import UserProgress, ReviewEvent  # noqa: F401
 from app.models.quiz import QuizAttempt, QuizAnswer, QuizPinyinDistractorSet  # noqa: F401
