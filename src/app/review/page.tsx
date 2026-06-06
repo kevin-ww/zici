@@ -35,7 +35,7 @@ export default function ReviewPage() {
     setMeaningError('')
     setMeaningLoading(true)
     try {
-      const result = await apiExplainWord(word.word, 'intermediate', 'zh')
+      const result = await apiExplainWord(word.word, 'intermediate', 'en')
       setMeaning(result)
       return true
     } catch (e) {
@@ -84,7 +84,12 @@ export default function ReviewPage() {
   const promptText = word.word
   const answerLabel = reviewMode === 'meaning' ? '释义' : '拼音'
   const answerText = reviewMode === 'meaning' ? (meaning?.explanation_zh ?? '') : word.pinyin
-  const answerSubText = reviewMode === 'meaning' ? word.pinyin : undefined
+  const meaningSource = meaning?.source_text
+    ? `${meaning.source_type ? `${meaning.source_type}：` : ''}${meaning.source_text}`
+    : meaning?.source_type ?? ''
+  const answerSubText = reviewMode === 'meaning'
+    ? [meaning?.explanation, meaningSource].filter(Boolean).join('\n')
+    : undefined
 
   return (
     <div style={{ padding: '20px 16px 0' }}>

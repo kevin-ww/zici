@@ -42,9 +42,31 @@ export default function FlashCard({
   const typeLabel: Record<string, string> = { char: '字', word: '词语', idiom: '成语' }
   const frontValue = promptText ?? word.word
   const backValue = answerText ?? word.pinyin
-  const promptAction = revealLabel ?? (promptLabel === '释义' ? '查看答案' : '查看拼音')
+  const promptAction = revealLabel ?? (promptLabel === '释义' ? '查看释义' : '查看拼音')
   const frontFontSize = frontValue.length > 12 ? 30 : frontValue.length > 8 ? 38 : 52
   const answerFontSize = backValue.length > 12 ? 18 : backValue.length > 8 ? 20 : 22
+  const actionButton = (
+    <button onClick={async () => {
+      try {
+        const result = await onReveal?.()
+        if (result === false) return
+        if (mode === 'review') {
+          setFlipped(true)
+        }
+      } catch {
+        // parent handles the error state
+      }
+    }} disabled={revealLoading} style={{
+      width: '100%', padding: '12px', borderRadius: 12, border: 'none',
+      background: revealLoading ? 'var(--border)' : 'var(--primary)',
+      color: revealLoading ? 'var(--muted)' : '#fff',
+      fontSize: 15, fontWeight: 600,
+      cursor: revealLoading ? 'default' : 'pointer',
+      marginTop: 16,
+    }}>
+      {revealLoading ? '加载中...' : promptAction}
+    </button>
+  )
 
   return (
     <div className="card" style={{ padding: 28, userSelect: 'none' }}>
@@ -63,19 +85,17 @@ export default function FlashCard({
       </div>
 
       <div style={{ textAlign: 'center', marginBottom: 20 }}>
-        <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 10 }}>
-          {promptLabel}
-        </div>
         <div style={{
           fontSize: frontFontSize,
           fontWeight: 700,
           letterSpacing: frontValue.length > 8 ? 1 : 4,
-          marginBottom: 8,
+          marginBottom: 10,
           lineHeight: 1.35,
           whiteSpace: 'pre-wrap',
         }}>
           {frontValue}
         </div>
+        {mode === 'browse' && actionButton}
       </div>
 
       {flipped ? (
@@ -97,7 +117,7 @@ export default function FlashCard({
             {backValue}
           </div>
           {answerSubText && (
-            <div style={{ marginTop: 8, fontSize: 15, color: 'var(--primary)', opacity: 0.85, lineHeight: 1.4 }}>
+            <div style={{ marginTop: 8, fontSize: 15, color: 'var(--primary)', opacity: 0.85, lineHeight: 1.4, whiteSpace: 'pre-wrap' }}>
               {answerSubText}
             </div>
           )}
@@ -124,25 +144,7 @@ export default function FlashCard({
             ✓ 记住了
           </button>
         </div>
-      ) : (
-        <button onClick={async () => {
-          try {
-            const result = await onReveal?.()
-            if (result === false) return
-            setFlipped(true)
-          } catch {
-            // parent handles the error state
-          }
-        }} disabled={revealLoading} style={{
-          width: '100%', padding: '12px', borderRadius: 12, border: 'none',
-          background: revealLoading ? 'var(--border)' : 'var(--primary)',
-          color: revealLoading ? 'var(--muted)' : '#fff',
-          fontSize: 15, fontWeight: 600,
-          cursor: revealLoading ? 'default' : 'pointer',
-        }}>
-          {revealLoading ? '加载中...' : promptAction}
-        </button>
-      )}
+      ) : mode === 'review' ? actionButton : null}
     </div>
   )
 }

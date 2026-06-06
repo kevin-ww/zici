@@ -39,15 +39,17 @@ export default function GradePage() {
   }
 
   async function handleExplain() {
-    if (!active || explaining) return
+    if (!active || explaining) return false
     setExplaining(true)
     setExplainError('')
     setExplanation(null)
     try {
       const result = await apiExplainWord(active.word, 'intermediate', 'en')
       setExplanation(result)
+      return true
     } catch (e) {
       setExplainError(e instanceof Error ? e.message : 'AI unavailable')
+      return false
     } finally {
       setExplaining(false)
     }
@@ -153,19 +155,23 @@ export default function GradePage() {
               </button>
             </div>
             {/* FlashCard */}
-            <FlashCard word={active} onCorrect={() => handleMark(true)} onWrong={() => handleMark(false)} />
-
-            {/* AI Explain button */}
-            <button onClick={handleExplain} disabled={explaining} style={{
-              width: '100%', marginTop: 14, padding: '11px',
-              borderRadius: 12, border: '1.5px solid var(--primary)',
-              background: explaining ? 'var(--border)' : '#fff',
-              color: explaining ? 'var(--muted)' : 'var(--primary)',
-              fontSize: 14, fontWeight: 600, cursor: explaining ? 'default' : 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-            }}>
-              {explaining ? '✨ AI 解释中...' : '✨ AI 解释'}
-            </button>
+            <FlashCard
+              word={active}
+              mode="browse"
+              promptText={`${active.word}(${active.pinyin})`}
+              answerLabel="释义"
+              answerText={explanation?.explanation_zh ?? ''}
+              answerSubText={[
+                explanation?.pinyin,
+                explanation?.source_type ? `${explanation.source_type}${explanation.source_confidence ? ` · ${explanation.source_confidence}` : ''}` : '',
+                explanation?.source_text ?? '',
+              ].filter(Boolean).join('\n')}
+              revealLabel="查看释义"
+              revealLoading={explaining}
+              onReveal={handleExplain}
+              onCorrect={() => handleMark(true)}
+              onWrong={() => handleMark(false)}
+            />
 
             {/* Error */}
             {explainError && (
@@ -182,6 +188,21 @@ export default function GradePage() {
                   <div style={{ fontSize: 13, color: 'var(--primary)', fontWeight: 600, marginBottom: 8 }}>
                     {explanation.pinyin}
                   </div>
+                  {(explanation.source_type || explanation.source_text) && (
+                    <div style={{ marginBottom: 10, padding: '10px 12px', borderRadius: 10, background: '#fff', border: '1px solid var(--border)' }}>
+                      {explanation.source_type && (
+                        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--primary)', marginBottom: explanation.source_text ? 6 : 0 }}>
+                          {explanation.source_type}
+                          {explanation.source_confidence ? ` · ${explanation.source_confidence}` : ''}
+                        </div>
+                      )}
+                      {explanation.source_text && (
+                        <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>
+                          {explanation.source_text}
+                        </div>
+                      )}
+                    </div>
+                  )}
                   <div style={{ fontSize: 14, color: 'var(--text)', lineHeight: 1.7, marginBottom: 8 }}>
                     {explanation.explanation_zh}
                   </div>
